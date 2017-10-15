@@ -12,3 +12,5 @@
 */
 
 Route::get('/', ['as' => 'welcome', 'uses' => 'WelcomeController@index']);
+Route::post('/result', ['as' => 'result', 'uses' => 'WelcomeController@result']);
+Route::get('/readXML', ['as' => 'readXML', 'uses' => 'ReadXMLController@index']);
