@@ -1,15 +1,17 @@
 import xml.etree.cElementTree as ET
 from datetime import datetime
 from elasticsearch import Elasticsearch
+from elasticsearch import helpers
 import xmltodict
 
-es = Elasticsearch()
-
 i = 1
+actions = []
 def process_buffer(buf):
     global i
-    es.index(index=xmltodict.parse(buf)['page']['id'], doc_type="wikipedia pagina",
-        id=xmltodict.parse(buf)['page']['id'], body=xmltodict.parse(buf)['page'])
+    global actions
+    foo = {'_index': xmltodict.parse(buf)['page']['id'], '_type': "wikipedia pagina",
+        '_id': xmltodict.parse(buf)['page']['id'], '_source': xmltodict.parse(buf)['page']}
+    actions.append(foo)
     print i
     i += 1
 
@@ -17,7 +19,6 @@ inputbuffer = ''
 with open('wiki.xml','rb') as inputfile:
     append = False
     for line in inputfile:
-        print
         if '<page>' in line:
             inputbuffer = line
             append = True
@@ -29,3 +30,7 @@ with open('wiki.xml','rb') as inputfile:
             del inputbuffer #probably redundant...
         elif append:
             inputbuffer += line
+
+es = Elasticsearch()
+print "Time for bulk"
+helpers.bulk(es, actions)
