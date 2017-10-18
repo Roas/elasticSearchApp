@@ -10,4 +10,5 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 .env
-/public/XML/wiki.xml
+/XML/wiki.xml
+/XML/.goutputstream-D0Q17Y

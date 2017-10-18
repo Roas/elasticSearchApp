@@ -6,13 +6,10 @@ use Illuminate\Http\Request;
 
 class ReadXMLController extends Controller
 {
-    public function index() {
-        $xml = XmlParser::load(asset('XML/wiki.xml'));
-        $wiki = $xml->parse([
-            'title' => ['uses' => 'page.title'],
-            'text' => ['page.text']
-        ]);
+    public function index()
+    {
+        $xml = simplexml_load_file("../XML/littlewiki.xml");
 
-        dd($wiki);
+        dd($xml);
     }
 }
