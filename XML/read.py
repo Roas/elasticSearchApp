@@ -3,15 +3,16 @@ from datetime import datetime
 from elasticsearch import Elasticsearch
 import xmltodict
 
-# es = Elasticsearch()
+es = Elasticsearch()
 
+i = 1
 def process_buffer(buf):
-    #es.index(xmltodict.parse(buf)['page'])
-    print xmltodict.parse(buf)['page']
-    print datetime.now()-startTime
-    exit()
+    global i
+    es.index(index=xmltodict.parse(buf)['page']['id'], doc_type="wikipedia pagina",
+        id=xmltodict.parse(buf)['page']['id'], body=xmltodict.parse(buf)['page'])
+    print i
+    i += 1
 
-startTime = datetime.now()
 inputbuffer = ''
 with open('wiki.xml','rb') as inputfile:
     append = False

@@ -33,9 +33,9 @@ class WelcomeController extends Controller
     public function gettest() {
         $client = ClientBuilder::create()->build();
         $params = [
-            'index' => 'my_index',
-            'type' => 'my_type',
-            'id' => 'my_id'
+            'index' => '1',
+            'type' => 'wikipedia pagina',
+            'id' => '1'
         ];
 
         $response = $client->get($params);
@@ -45,9 +45,9 @@ class WelcomeController extends Controller
     public function deletetest() {
         $client = ClientBuilder::create()->build();
         $params = [
-            'index' => 'my_index',
-            'type' => 'my_type',
-            'id' => 'my_id'
+            'index' => '1',
+            'type' => 'wikipedia pagina',
+            'id' => '1'
         ];
 
         $response = $client->delete($params);
