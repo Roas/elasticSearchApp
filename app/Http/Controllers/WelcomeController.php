@@ -30,12 +30,12 @@ class WelcomeController extends Controller
         dd($response);
     }
 
-    public function gettest() {
+    public function gettest($id) {
         $client = ClientBuilder::create()->build();
         $params = [
-            'index' => '1',
+            'index' => 'wikipedia',
             'type' => 'wikipedia pagina',
-            'id' => '1'
+            'id' => $id
         ];
 
         $response = $client->get($params);

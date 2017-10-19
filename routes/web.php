@@ -12,7 +12,7 @@
 */
 
 Route::get('/', ['as' => 'welcome', 'uses' => 'WelcomeController@index']);
-Route::get('/gettest', ['as' => 'gettest', 'uses' => 'WelcomeController@gettest']);
-Route::get('/deletetest', ['as' => 'deletetest', 'uses' => 'WelcomeController@deletetest']);
+Route::get('/gettest/{id}', ['as' => 'gettest', 'uses' => 'WelcomeController@gettest']);
+Route::get('/deletetest/{id}', ['as' => 'deletetest', 'uses' => 'WelcomeController@deletetest']);
 Route::post('/result', ['as' => 'result', 'uses' => 'WelcomeController@result']);
 Route::get('/readXML', ['as' => 'readXML', 'uses' => 'ReadXMLController@index']);
