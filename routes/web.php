@@ -12,7 +12,7 @@
 */
 
 Route::get('/', ['as' => 'welcome', 'uses' => 'WelcomeController@index']);
-Route::post('/result', ['as' => 'result', 'uses' => 'WelcomeController@result']);
+Route::get('/result', ['as' => 'result', 'uses' => 'WelcomeController@result']);
 Route::get('/article/{id}', ['as' => 'article', 'uses' => 'WelcomeController@article']);
 Route::get('/advancedsearch', ['as' => 'advancedsearch', 'uses' => 'AdvancedSearchController@index']);
-Route::post('/advancedsearch/result', ['as' => 'advancedsearch.result', 'uses' => 'AdvancedSearchController@result']);
+Route::get('/advancedsearch/result', ['as' => 'advancedsearch.result', 'uses' => 'AdvancedSearchController@result']);

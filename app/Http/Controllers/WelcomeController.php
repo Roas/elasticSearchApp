@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Elasticsearch\ClientBuilder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use Parsedown;
 use Symfony\Component\HttpKernel\Client;
 
@@ -14,9 +15,10 @@ class WelcomeController extends Controller
         return view('welcome');
     }
 
-    public function result(Request $request)
+    public function result()
     {
-        if ($request->input('query') == null) {
+        $query = Input::get('query');
+        if ($query == null) {
             return view('noquery');
         }
         $client = ClientBuilder::create()->build();
@@ -24,7 +26,7 @@ class WelcomeController extends Controller
             'body' => [
                 'query' => [
                     'multi_match' => [
-                        'query' => $request->input('query'),
+                        'query' => $query,
                         'fields' => ['title', 'text'],
                     ],
                 ]

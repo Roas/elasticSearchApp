@@ -8,7 +8,7 @@
             <a href="{{ route('advancedsearch') }}">Advanced search</a>
         </div>
         <br/>
-        {!! Form::open(['route' => 'result', 'method' => 'POST']) !!}
+        {!! Form::open(['route' => 'result', 'method' => 'GET']) !!}
 
         <div class="form-group">
             <div class="input-group">

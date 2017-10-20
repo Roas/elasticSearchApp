@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Elasticsearch\ClientBuilder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class AdvancedSearchController extends Controller
 {
@@ -12,8 +13,10 @@ class AdvancedSearchController extends Controller
         return view('advancedsearch');
     }
 
-    public function result(Request $request)
+    public function result()
     {
+        $title = Input::get('title');
+        $text = Input::get('text');
         $client = ClientBuilder::create()->build();
         $params = [
             'body' => [
@@ -21,11 +24,11 @@ class AdvancedSearchController extends Controller
                     'bool' => [
                         'must' => [
                             ['match' => [
-                                'title' => $request->input('title')
+                                'title' => $title
                             ]
                             ],
                             ['match' => [
-                                'text' => $request->input('text')
+                                'text' => $text
                             ]
                             ]
                         ]
@@ -33,17 +36,17 @@ class AdvancedSearchController extends Controller
                 ]
             ]
         ];
-        if ($request->input('title') == null && $request->input('text') == null) {
+        if ($title == null && $text == null) {
             return view('advancedsearchnoquery');
         }
-        if ($request->input('title') == null) {
+        if ($title == null) {
             $params = [
                 'body' => [
                     'query' => [
                         'bool' => [
                             'must' => [
                                 ['match' => [
-                                    'text' => $request->input('text')
+                                    'text' => $text
                                 ]
                                 ]
                             ]
@@ -52,14 +55,14 @@ class AdvancedSearchController extends Controller
                 ]
             ];
         }
-        if ($request->input('text') == null) {
+        if ($text == null) {
             $params = [
                 'body' => [
                     'query' => [
                         'bool' => [
                             'must' => [
                                 ['match' => [
-                                    'title' => $request->input('title')
+                                    'title' => $title
                                 ]
                                 ]
                             ]

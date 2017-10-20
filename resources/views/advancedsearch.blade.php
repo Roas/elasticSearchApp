@@ -8,7 +8,7 @@
             <a href="{{ route('welcome') }}">Normal search</a>
         </div>
         <br/>
-        {!! Form::open(['route' => 'advancedsearch.result', 'method' => 'POST']) !!}
+        {!! Form::open(['route' => 'advancedsearch.result', 'method' => 'GET']) !!}
 
         {!! Form::text('title', null, ['class' => 'form-control', 'placeholder' => 'Title', 'style' => 'width: 100%']) !!}
         {!! Form::text('text', null, ['class' => 'form-control', 'placeholder' => 'Body', 'style' => 'width: 100%']) !!}
