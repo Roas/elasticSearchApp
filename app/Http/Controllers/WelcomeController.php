@@ -21,13 +21,13 @@ class WelcomeController extends Controller
         }
         $client = ClientBuilder::create()->build();
 
-        $params = [
-            'index' => 'nfl',
-            'size' => 5,
-            'body' => [
-                'query' => 
-            ]
-        ];
+//        $params = [
+//            'index' => 'nfl',
+//            'size' => 5,
+//            'body' => [
+//                'query' =>
+//            ]
+//        ];
 
         $params = [
             'body' => [
