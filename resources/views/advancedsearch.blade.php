@@ -4,22 +4,20 @@
 
     <div class="row">
         <div class="center">
-            <h3>Enter a search query</h3>
-            <a href="{{ route('advancedsearch') }}">Advanced search</a>
+            <h3>Enter an advanced search query</h3>
+            <a href="{{ route('welcome') }}">Normal search</a>
         </div>
         <br/>
-        {!! Form::open(['route' => 'result', 'method' => 'POST']) !!}
+        {!! Form::open(['route' => 'advancedsearch.result', 'method' => 'POST']) !!}
 
-        <div class="form-group">
-            <div class="input-group">
-                {!! Form::text('query', null, ['class' => 'form-control']) !!}
-                <span class="input-group-btn">
-                {!! Form::submit('Search', ['class' => 'btn btn-default']) !!}
-                </span>
-            </div>
-        </div>
+        {!! Form::text('title', null, ['class' => 'form-control', 'placeholder' => 'Title', 'style' => 'width: 100%']) !!}
+        {!! Form::text('text', null, ['class' => 'form-control', 'placeholder' => 'Body', 'style' => 'width: 100%']) !!}
 
-        @if(Route::currentRouteName() == "result")
+        {!! Form::submit('Search', ['class' => 'btn btn-default']) !!}
+        <br>
+        <br>
+
+        @if(Route::currentRouteName() == "advancedsearch.result")
             @if($results != [])
                 @foreach($results as $result)
                     <div class="panel panel-default">
@@ -42,7 +40,7 @@
 @endsection
 
 @section('logo')
-    @if(Route::currentRouteName() == "result")
+    @if(Route::currentRouteName() == "advancedsearch.result")
         @if($results != [])
             <img src="{{ asset("img/search.jpg") }}" style="height:225px">
         @else

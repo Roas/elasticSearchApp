@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Elasticsearch\ClientBuilder;
 use Illuminate\Http\Request;
+use Parsedown;
+use Symfony\Component\HttpKernel\Client;
 
 class WelcomeController extends Controller
 {
@@ -12,25 +14,39 @@ class WelcomeController extends Controller
         return view('welcome');
     }
 
-    public function result(Request $request) {
-        return view('welcome');
-    }
-
-    public function test()
+    public function result(Request $request)
     {
+        if ($request->input('query') == null) {
+            return view('noquery');
+        }
         $client = ClientBuilder::create()->build();
+
         $params = [
-            'index' => 'my_index',
-            'type' => 'my_type',
-            'id' => 'my_id',
-            'body' => ['testField' => 'abc']
+            'index' => 'nfl',
+            'size' => 5,
+            'body' => [
+                'query' => 
+            ]
         ];
 
-        $response = $client->index($params);
-        dd($response);
+        $params = [
+            'body' => [
+                'query' => [
+                    'multi_match' => [
+                        'query' => $request->input('query'),
+                        'fields' => ['title', 'text'],
+                    ],
+                ]
+            ]
+        ];
+
+        $response = $client->search($params);
+        $results = $response['hits']['hits'];
+        return view('welcome', compact('results'));
     }
 
-    public function gettest($id) {
+    public function article($id)
+    {
         $client = ClientBuilder::create()->build();
         $params = [
             'index' => 'wikipedia',
@@ -38,19 +54,10 @@ class WelcomeController extends Controller
             'id' => $id
         ];
 
-        $response = $client->get($params);
-        dd($response);
-    }
-
-    public function deletetest() {
-        $client = ClientBuilder::create()->build();
-        $params = [
-            'index' => '1',
-            'type' => 'wikipedia pagina',
-            'id' => '1'
-        ];
-
-        $response = $client->delete($params);
-        dd($response);
+        $article = $client->get($params);
+        $parsedown = new Parsedown();
+        $title = $parsedown->text($article['_source']['title']);
+        $text = $parsedown->text($article['_source']['text']);
+        return view('article', compact('title', 'text'));
     }
 }

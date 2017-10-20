@@ -5,9 +5,16 @@
 </head>
 <body>
 <div class="container">
+    <style>
+        .center {
+            text-align: center;
+        }
+    </style>
     <div class="row">
         <div class="col-12">
-            <h1>Elastic Search Project</h1>
+            <div class="center">
+                @yield('logo')
+            </div>
         </div>
     </div>
     @yield('content')
