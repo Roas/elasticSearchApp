@@ -71,6 +71,8 @@ class AdvancedSearchController extends Controller
 
         $response = $client->search($params);
         $results = $response['hits']['hits'];
-        return view('advancedsearch', compact('results'));
+        $took = $response['took'];
+        $total = $response['hits']['total'];
+        return view('advancedsearch', compact('results', 'took', 'total'));
     }
 }

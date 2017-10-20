@@ -20,15 +20,6 @@ class WelcomeController extends Controller
             return view('noquery');
         }
         $client = ClientBuilder::create()->build();
-
-//        $params = [
-//            'index' => 'nfl',
-//            'size' => 5,
-//            'body' => [
-//                'query' =>
-//            ]
-//        ];
-
         $params = [
             'body' => [
                 'query' => [
@@ -42,7 +33,9 @@ class WelcomeController extends Controller
 
         $response = $client->search($params);
         $results = $response['hits']['hits'];
-        return view('welcome', compact('results'));
+        $took = $response['took'];
+        $total = $response['hits']['total'];
+        return view('welcome', compact('results', 'took', 'total'));
     }
 
     public function article($id)

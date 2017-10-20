@@ -19,7 +19,9 @@
             </div>
         </div>
 
+
         @if(Route::currentRouteName() == "result")
+            <p>We found {{ $total }} results in {{ $took }} milliseconds</p>
             @if($results != [])
                 @foreach($results as $result)
                     <div class="panel panel-default">

@@ -18,6 +18,7 @@
         <br>
 
         @if(Route::currentRouteName() == "advancedsearch.result")
+            <p>We found {{ $total }} results in {{ $took }} milliseconds</p>
             @if($results != [])
                 @foreach($results as $result)
                     <div class="panel panel-default">
