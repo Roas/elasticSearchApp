@@ -12,3 +12,5 @@ yarn-error.log
 .env
 /XML/wiki.xml
 /XML/.goutputstream-D0Q17Y
+/XML/bigwiki.xml
+/XML/littlewiki.xml

@@ -19,5 +19,15 @@
     </div>
     @yield('content')
 </div>
+<footer>
+    <hr>
+    <br>
+    <div class="center">
+        &copy; de wikidumpers
+    </div>
+    <br>
+    <br>
+    <br>
+</footer>
 </body>
 </html>

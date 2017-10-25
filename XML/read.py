@@ -6,14 +6,19 @@ import xmltodict
 
 es = Elasticsearch(timeout=60, max_retries=10, retry_on_timeout=True)
 actions = []
-i = 1
+i = 0
 index = 1
 roundCount = 0
 def process_buffer(buf):
     global actions, i, index
     page = xmltodict.parse(buf)
-    createInput(page)
-    if i < 10672:
+    try:    
+	text = page['page']['revision']['text']['#text']
+        if (text[0] != '#'):
+            createInput(page, text)
+    except KeyError:
+        print "No text found."
+    if i < 10672: # 788, 10672, 820
         i += 1
     else:
         global es
@@ -25,19 +30,16 @@ def process_buffer(buf):
         actions = []
     index += 1
 
-def createInput(page):
+def createInput(page, text):
     global actions, index
-    try:
-        sourcedict = {'title': page['page']['title'],
-            'text': page['page']['revision']['text']['#text']}
-        foo = {'_index': 'wikipedia', '_op_type': 'create', '_type': "wikipedia pagina",
-            '_id': index, '_source': sourcedict}
-        actions.append(foo)
-    except KeyError:
-        print "No text found."
-
+    sourcedict = {'title': page['page']['title'],
+        'text': text}
+    foo = {'_index': 'wikipedia', '_op_type': 'create', '_type': "wikipedia pagina",
+        '_id': index, '_source': sourcedict}
+    actions.append(foo)
+    
 inputbuffer = ''
-with open('wiki.xml','rb') as inputfile:
+with open('bigwiki.xml','rb') as inputfile:
     append = False
     for line in inputfile:
         if '<page>' in line:
