@@ -35,9 +35,28 @@ class WelcomeController extends Controller
 
         $response = $client->search($params);
         $results = $response['hits']['hits'];
+        foreach($results as $key => $result) {
+            $results[$key]['tags'] = $this->tag_contents($results[$key]["_source"]["text"], "[[Categorie:", "]]");
+            $results[$key]['tags2'] = $this->tag_contents($results[$key]["_source"]["text"], "[[categorie:", "]]");
+        }
         $took = $response['took'];
         $total = $response['hits']['total'];
+//        dd($results);
         return view('welcome', compact('results', 'took', 'total'));
+    }
+
+    private function tag_contents($string, $tag_open, $tag_close)
+    {
+        foreach (explode($tag_open, $string) as $key => $value) {
+            if (strpos($value, $tag_close) !== FALSE) {
+                $result[] = substr($value, 0, strpos($value, $tag_close));;
+            }
+        }
+        if (isset($result)) {
+            return $result;
+        } else {
+            return null;
+        }
     }
 
     public function article($id)

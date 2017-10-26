@@ -19,7 +19,6 @@
             </div>
         </div>
 
-
         @if(Route::currentRouteName() == "result")
             <p>We found {{ $total }} results in {{ $took }} milliseconds</p>
             @if($results != [])
@@ -30,6 +29,25 @@
                         </div>
                         <div class="panel-body">
                             {{ str_limit($result['_source']['text'], $limit=500, $end='....') }}
+                        </div>
+                        <div class="panel-footer">
+                            <label>Categorieën:</label>
+                            @if(count($result['tags']) > 1)
+                                @for($i = 1; $i < count($result['tags']); $i++)
+                                    <label>{{ $result['tags'][$i] }}</label>
+                                    @if($i != count($result['tags']) - 1  || count($result['tags2']) > 1)
+                                        &#9679
+                                    @endif
+                                @endfor
+                            @endif
+                            @if(count($result['tags2']) > 1)
+                                @for($i = 1; $i < count($result['tags2']); $i++)
+                                    <label>{{ $result['tags2'][$i] }}</label>
+                                    @if($i != count($result['tags2']) - 1)
+                                        &#9679
+                                    @endif
+                                @endfor
+                            @endif
                         </div>
                     </div>
                 @endforeach
