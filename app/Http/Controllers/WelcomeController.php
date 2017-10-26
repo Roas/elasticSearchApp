@@ -18,6 +18,7 @@ class WelcomeController extends Controller
     public function result()
     {
         $query = Input::get('query');
+        $facet = Input::get('facet');
         if ($query == null) {
             return view('noquery');
         }
@@ -25,24 +26,42 @@ class WelcomeController extends Controller
         $params = [
             'body' => [
                 'query' => [
-                    'multi_match' => [
-                        'query' => $query,
-                        'fields' => ['title', 'text'],
-                    ],
+                    'bool' => [
+                        'must' => [
+                            'match' => [
+                                'facet' => $facet
+                            ]
+                        ],
+                        'should' => [
+                            ['match' => ['title' => $query]],
+                            ['match' => ['body' => $query,]
+                            ]
+                        ]
+                    ]
                 ]
             ]
         ];
-
+        if ($facet == null) {
+            $params = [
+                'body' => [
+                    'query' => [
+                        'multi_match' => [
+                            'query' => $query,
+                            'fields' => ['title', 'text'],
+                        ]
+                    ]
+                ]
+            ];
+        }
         $response = $client->search($params);
         $results = $response['hits']['hits'];
-        foreach($results as $key => $result) {
+        foreach ($results as $key => $result) {
             $results[$key]['tags'] = $this->tag_contents($results[$key]["_source"]["text"], "[[Categorie:", "]]");
             $results[$key]['tags2'] = $this->tag_contents($results[$key]["_source"]["text"], "[[categorie:", "]]");
         }
         $took = $response['took'];
         $total = $response['hits']['total'];
-//        dd($results);
-        return view('welcome', compact('results', 'took', 'total'));
+        return view('welcome', compact('results', 'took', 'total', 'query'));
     }
 
     private function tag_contents($string, $tag_open, $tag_close)

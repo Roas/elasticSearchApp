@@ -18,6 +18,29 @@
                 </span>
             </div>
         </div>
+        @if(Route::currentRouteName() == "result")
+            <a href="{{ route('result', ['query' => $query, 'facet' => 'Land']) }}">Land</a>
+            <a href="{{ route('result', ['query' => $query, 'facet' => 'Dier']) }}">Dier</a>
+            <a href="{{ route('result', ['query' => $query, 'facet' => 'Sport']) }}">Sport</a>
+            <a href="{{ route('result', ['query' => $query, 'facet' => 'Televisie']) }}">Televisie</a>
+            <a href="{{ route('result', ['query' => $query, 'facet' => 'Internet']) }}">Internet</a>
+            <a href="{{ route('result', ['query' => $query, 'facet' => 'Muziek']) }}">Muziek</a>
+            <a href="{{ route('result', ['query' => $query, 'facet' => 'Beroep']) }}">Beroep</a>
+            <a href="{{ route('result', ['query' => $query, 'facet' => 'Geneeskunde']) }}">Geneeskunde</a>
+            <a href="{{ route('result', ['query' => $query, 'facet' => 'Economie']) }}">Economie</a>
+            <a href="{{ route('result', ['query' => $query, 'facet' => 'Politiek']) }}">Politiek</a>
+        @else
+            <a href="{{ route('result', ['facet' => 'Land']) }}">Land</a>
+            <a href="{{ route('result', ['facet' => 'Dier']) }}">Dier</a>
+            <a href="{{ route('result', ['facet' => 'Sport']) }}">Sport</a>
+            <a href="{{ route('result', ['facet' => 'Televisie']) }}">Televisie</a>
+            <a href="{{ route('result', ['facet' => 'Internet']) }}">Internet</a>
+            <a href="{{ route('result', ['facet' => 'Muziek']) }}">Muziek</a>
+            <a href="{{ route('result', ['facet' => 'Beroep']) }}">Beroep</a>
+            <a href="{{ route('result', ['facet' => 'Geneeskunde']) }}">Geneeskunde</a>
+            <a href="{{ route('result', ['facet' => 'Economie']) }}">Economie</a>
+            <a href="{{ route('result', ['facet' => 'Politiek']) }}">Politiek</a>
+        @endif
 
         @if(Route::currentRouteName() == "result")
             <p>We found {{ $total }} results in {{ $took }} milliseconds</p>
